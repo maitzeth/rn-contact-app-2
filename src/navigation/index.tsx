@@ -116,6 +116,7 @@ export const Navigation = () => {
         initialRouteName="Tabs"
         screenOptions={{
           headerTintColor: 'white',
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: theme.theme.colors.primary,
           },
