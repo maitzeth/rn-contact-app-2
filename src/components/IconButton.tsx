@@ -1,25 +1,37 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {styled} from 'styled-components/native';
+import {TypeTheme} from '../types';
+
+const btnStyles = {
+  default: 'default',
+  primary: 'primary',
+} as const;
 
 type Props = React.PropsWithChildren<{
   onPress?: () => void;
+  styled?: keyof typeof btnStyles;
 }>;
 
-export const IconButton = ({children, onPress}: Props) => {
+export const IconButton = ({children, onPress, styled = 'default'}: Props) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <StyledButton onPress={onPress} $styled={styled}>
       {children}
-    </TouchableOpacity>
+    </StyledButton>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: 25,
-    height: 25,
-    borderRadius: 50,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const StyledButton = styled.TouchableOpacity<
+  TypeTheme & {
+    $styled?: keyof typeof btnStyles;
+  }
+>`
+  width: ${props => props.theme.dimensions.vw(7)};
+  height: ${props => props.theme.dimensions.vw(7)};
+  border-radius: ${props => props.theme.dimensions.vw(7)};
+  background-color: ${props =>
+    props.$styled === 'primary'
+      ? props.theme.colors.primary
+      : props.theme.colors.white};
+  align-items: center;
+  justify-content: center;
+`;
