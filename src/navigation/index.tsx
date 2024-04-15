@@ -17,17 +17,21 @@ const screenOptions = (route: string, color: string) => {
   let iconName;
 
   switch (route) {
-    case 'Home':
+    case 'Home': {
       iconName = 'home';
       break;
-    case 'Muestras':
+    }
+    case 'Muestras': {
       iconName = 'repo';
       break;
-    case 'Vademecum':
+    }
+    case 'Vademecum': {
       iconName = 'book';
       break;
-    default:
+    }
+    default: {
       break;
+    }
   }
 
   return <Icon name={iconName} color={color} size={24} />;
