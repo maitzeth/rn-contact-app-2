@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import {PageTitle} from '../components/CustomPageTitle';
 
 export function Vademecum() {
   return (
     <View>
-      <Text>Vademecum</Text>
+      <PageTitle>Vademecum Screen</PageTitle>
     </View>
   );
 }

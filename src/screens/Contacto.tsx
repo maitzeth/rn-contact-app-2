@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ActivityIndicator, Linking} from 'react-native';
+import {View, ActivityIndicator, Linking, Alert} from 'react-native';
 import {styled} from 'styled-components/native';
 import {TypeTheme, StackScreens} from '../types';
 import {
@@ -18,7 +18,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicos from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {formatDefaultReadableDate} from '../lib/dates';
-import {GenderTranslationMap} from '../lib/constants';
+import {GenderTranslationMap, DEFAULT_ERROR_MSG} from '../lib/constants';
 
 type ContactScreenProps = RouteProp<StackScreens, 'Contacto'>;
 
@@ -34,6 +34,22 @@ export function Contacto() {
     );
   }
 
+  const handleOpenLink = async (source: string) => {
+    try {
+      const response = await Linking.openURL(source);
+
+      if (!response) {
+        Alert.alert(DEFAULT_ERROR_MSG);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert(error.message);
+      } else {
+        Alert.alert(DEFAULT_ERROR_MSG);
+      }
+    }
+  };
+
   return (
     <StyledWrapper>
       {data ? (
@@ -47,9 +63,7 @@ export function Contacto() {
                 <StyledIconsWrapper>
                   <IconButton styled="primary">
                     <Feather
-                      onPress={() => {
-                        Linking.openURL(`tel:${data.phone}`);
-                      }}
+                      onPress={() => handleOpenLink(`tel:${data.phone}`)}
                       size={15}
                       name="phone"
                       color={theme.theme.colors.white}
@@ -57,9 +71,7 @@ export function Contacto() {
                   </IconButton>
                   <IconButton
                     styled="primary"
-                    onPress={() => {
-                      Linking.openURL(`mailto:${data.email}`);
-                    }}>
+                    onPress={() => handleOpenLink(`mailto:${data.email}`)}>
                     <FontAwesome
                       size={15}
                       name="envelope-o"
@@ -73,8 +85,8 @@ export function Contacto() {
                       color={theme.theme.colors.white}
                       onPress={() => {
                         const helloMsg = encodeURIComponent('Hello there');
-                        Linking.openURL(
-                          `https://wa.me/${data.phone}/?text=${helloMsg}`,
+                        handleOpenLink(
+                          `whatsapp://send?text=${helloMsg}&phone=${data.phone}`,
                         );
                       }}
                     />

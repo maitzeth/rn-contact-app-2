@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import {useUsers} from '../api';
 import {ContactItem, BasicError} from '../components';
 import {StackScreens} from '../types';
+import {theme} from '../lib/theme';
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   StackScreens,
@@ -19,7 +20,7 @@ export function Home() {
   if (isLoading) {
     return (
       <StyledActivity>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color={theme.theme.colors.primary} />
       </StyledActivity>
     );
   }
