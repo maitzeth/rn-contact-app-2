@@ -5,9 +5,17 @@ import styled from 'styled-components/native';
 import {useUsers} from '../api';
 import {ContactItem} from '../components';
 import {theme} from '../lib/theme';
-import {TypeTheme} from '../types';
+import {TypeTheme, StackScreens} from '../types';
+import {useNavigation} from '@react-navigation/native';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<
+  StackScreens,
+  'Tabs'
+>;
 
 export function Home() {
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const {data, isLoading, error} = useUsers();
 
   if (isLoading) {
@@ -18,13 +26,25 @@ export function Home() {
     );
   }
 
+  const handlePressContact = (id: number) => {
+    navigation.navigate('Details', {
+      contactId: id,
+    });
+  };
+
   return (
     <StyledContainer $isCentered={Boolean(error)}>
       {data ? (
         <FlatList
           data={data.users}
           renderItem={({item}) => {
-            return <ContactItem imageUri={item.photo} name={item.name} />;
+            return (
+              <ContactItem
+                imageUri={item.photo}
+                name={`${item.name} ${item.surnames}`}
+                onPress={() => handlePressContact(item.contactId)}
+              />
+            );
           }}
           keyExtractor={item => `${item.contactId}`}
         />

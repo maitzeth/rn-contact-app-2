@@ -1,5 +1,12 @@
 import {theme} from '../lib/theme';
 
+export type StackScreens = {
+  Tabs: undefined;
+  Details: {
+    contactId: number;
+  };
+};
+
 export type TypeTheme = typeof theme;
 
 export type User = {

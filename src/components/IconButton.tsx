@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableHighlight} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 type Props = React.PropsWithChildren<{
   onPress?: () => void;
@@ -7,9 +7,9 @@ type Props = React.PropsWithChildren<{
 
 export const IconButton = ({children, onPress}: Props) => {
   return (
-    <TouchableHighlight style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       {children}
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
