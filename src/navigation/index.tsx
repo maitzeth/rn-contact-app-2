@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home} from '../screens/Home';
 import {Vademecum} from '../screens/Vademecum';
 import {Muestras} from '../screens/Muestras';
-import {Details} from '../screens/Details';
+import {Contacto} from '../screens/Contacto';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Octicons';
@@ -114,9 +114,20 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Tabs"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Tabs" component={Tabs} />
-        <Stack.Screen name="Details" component={Details} />
+        screenOptions={{
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: theme.theme.colors.primary,
+          },
+        }}>
+        <Stack.Screen
+          name="Tabs"
+          component={Tabs}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name="Contacto" component={Contacto} />
       </Stack.Navigator>
     </NavigationContainer>
   );

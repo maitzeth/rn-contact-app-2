@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-export function Details() {
+export function Contacto() {
   return (
     <View>
-      <Text>Details</Text>
+      <Text>Contacto</Text>
     </View>
   );
 }

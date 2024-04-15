@@ -27,7 +27,7 @@ export function Home() {
   }
 
   const handlePressContact = (id: number) => {
-    navigation.navigate('Details', {
+    navigation.navigate('Contacto', {
       contactId: id,
     });
   };

@@ -2,7 +2,7 @@ import {theme} from '../lib/theme';
 
 export type StackScreens = {
   Tabs: undefined;
-  Details: {
+  Contacto: {
     contactId: number;
   };
 };
