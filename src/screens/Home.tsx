@@ -1,39 +1,69 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {Button} from 'react-native';
+import {ActivityIndicator, FlatList} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useUsers} from '../api';
 import styled from 'styled-components/native';
+import {useUsers} from '../api';
+import {ContactItem} from '../components';
+import {theme} from '../lib/theme';
 import {TypeTheme} from '../types';
 
-// function TabLayout({ children }: any) {
+export function Home() {
+  const {data, isLoading, error} = useUsers();
 
-// }
+  if (isLoading) {
+    return (
+      <StyledActivity>
+        <ActivityIndicator />
+      </StyledActivity>
+    );
+  }
 
-// const Container = styled.View<TypeTheme>`
-//   background-color: ${}
-// `;
-
-export function Home({navigation}: any) {
-  const { data, isLoading } = useUsers();
-  console.log(data?.users.length);
   return (
-    <View>
-      <Text>Home</Text>
-      {/* <AntDesign name="customerservice" style={{
-        color: 'red',
-        fontSize: 50,
-      }} />
-      <AntDesign name="windows" style={{
-        color: 'red',
-        fontSize: 50,
-      }} /> */}
-      <Button
-        title="Go Details"
-        onPress={() => {
-          navigation.navigate('Details');
-        }}
-      />
-    </View>
+    <StyledContainer $isCentered={Boolean(error)}>
+      {data ? (
+        <FlatList
+          data={data.users}
+          renderItem={({item}) => {
+            return <ContactItem imageUri={item.photo} name={item.name} />;
+          }}
+          keyExtractor={item => `${item.contactId}`}
+        />
+      ) : (
+        <StyledErrorWrapper>
+          <AntDesign name="meh" size={80} color={theme.theme.colors.primary} />
+          <StyledMessage>Sucedio un error, intenta de nuevo</StyledMessage>
+        </StyledErrorWrapper>
+      )}
+    </StyledContainer>
   );
 }
+
+const StyledContainer = styled.View<{$isCentered: boolean}>`
+  flex: 1;
+  ${props =>
+    props.$isCentered &&
+    `
+    justify-content: center;
+    align-items: center;
+  `}
+`;
+
+const StyledActivity = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledMessage = styled.Text<TypeTheme>`
+  font-size: ${props => props.theme.units.rem(2)};
+  color: ${props => props.theme.colors.primary};
+  text-align: center;
+`;
+
+const StyledErrorWrapper = styled.View<TypeTheme>`
+  padding-left: ${props => props.theme.dimensions.vw(1)};
+  padding-right: ${props => props.theme.dimensions.vw(1)};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;

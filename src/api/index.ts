@@ -9,14 +9,21 @@ type FetchUserType = Promise<{users: User[]}>;
 const fetchUsers = async () => {
   try {
     const response = await fetch(`${API_URL}${USERS_ENDPOINT}`);
-    const data = response.json();
-    return data as FetchUserType;
-  } catch (_err) {
-    return {
-      users: [],
-      message: 'Something weird happened please, try again...',
-    };
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
+    }
+
+    const jsonData: FetchUserType = await response.json();
+    return jsonData;
+  } catch (error) {
+    throw error;
   }
 };
 
-export const useUsers = () => useQuery('users', fetchUsers);
+export const useUsers = () =>
+  useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    retry: 1,
+  });
