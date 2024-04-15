@@ -7,13 +7,33 @@ import {Details} from '../screens/Details';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Octicons';
-import {theme} from '../utils/theme';
+import {theme} from '../lib/theme';
 import Color from 'color';
+import {TypeTheme} from '../types';
+import {styled} from 'styled-components/native';
+import {tabHeaderTitles} from '../lib/constants';
+import {IconButton} from '../components';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const screenOptions = (route: string, color: string) => {
+const StyledHeaderWrapper = styled.View<TypeTheme>`
+  display: flex;
+  flex-direction: row;
+  gap: ${props => props.theme.dimensions.vw(3)};
+  align-items: center;
+`;
+
+const StyledHeaderText = styled.Text<TypeTheme>`
+  font-weight: bold;
+  color: ${props => props.theme.colors.white};
+`;
+
+const StyledRightWrapper = styled.View<TypeTheme>`
+  margin-right: ${props => props.theme.dimensions.vh(1)};
+`;
+
+const iconResolver = (route: string, color: string) => {
   let iconName: string = 'circle';
 
   switch (route) {
@@ -37,13 +57,37 @@ const screenOptions = (route: string, color: string) => {
   return <Icon name={iconName} color={color} size={24} />;
 };
 
+function HeaderTitle(props: {children: string}) {
+  const title = props.children;
+  const icon = iconResolver(title, 'white');
+
+  return (
+    <StyledHeaderWrapper>
+      {icon}
+      <StyledHeaderText>
+        {tabHeaderTitles[title as keyof typeof tabHeaderTitles]}
+      </StyledHeaderText>
+    </StyledHeaderWrapper>
+  );
+}
+
+const HeaderRight = () => {
+  return (
+    <StyledRightWrapper>
+      <IconButton>
+        <Icon name="bell" size={14} color={theme.theme.colors.primary} />
+      </IconButton>
+    </StyledRightWrapper>
+  );
+};
+
 function Tabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({route}) => {
         return {
-          tabBarIcon: ({color}) => screenOptions(route.name, color),
+          tabBarIcon: ({color}) => iconResolver(route.name, color),
           tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'white',
           tabBarActiveBackgroundColor: Color(theme.theme.colors.primary)
@@ -51,7 +95,11 @@ function Tabs() {
             .rgb()
             .string(),
           tabBarInactiveBackgroundColor: theme.theme.colors.primary,
-          headerShown: false,
+          headerStyle: {
+            backgroundColor: theme.theme.colors.primary,
+          },
+          headerTitle: HeaderTitle,
+          headerRight: HeaderRight,
         };
       }}>
       <Tab.Screen name="Muestras" component={Muestras} />
