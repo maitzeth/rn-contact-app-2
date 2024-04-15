@@ -2,13 +2,21 @@ import React from 'react';
 import {View, Button, ActivityIndicator, Linking} from 'react-native';
 import {styled} from 'styled-components/native';
 import {TypeTheme, StackScreens} from '../types';
-import {Avatar, BasicError, IconButton} from '../components';
+import {
+  Avatar,
+  BasicError,
+  IconButton,
+  TwoSidedInfoDisplayer,
+} from '../components';
 import {useUser} from '../api';
 import {theme} from '../lib/theme';
 import {useRoute} from '@react-navigation/native';
 import type {RouteProp} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicos from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {formatDefaultReadableDate} from '../lib/dates';
 
 type ContactScreenProps = RouteProp<StackScreens, 'Contacto'>;
 
@@ -72,6 +80,41 @@ export function Contacto() {
                 </StyledIconsWrapper>
               </StyledHeader>
             </StyledContent>
+            <View>
+              <TwoSidedInfoDisplayer
+                icon={
+                  <Ionicos
+                    name="calendar-clear-outline"
+                    size={18}
+                    color={theme.theme.colors.black}
+                  />
+                }
+                title="Fecha de Nacimiento"
+                content={formatDefaultReadableDate(data.birthDate)}
+              />
+              <TwoSidedInfoDisplayer
+                icon={
+                  <MaterialCommunityIcons
+                    name="gender-male-female"
+                    size={18}
+                    color={theme.theme.colors.black}
+                  />
+                }
+                title="Género"
+                content={data.gender}
+              />
+              <TwoSidedInfoDisplayer
+                icon={
+                  <MaterialCommunityIcons
+                    name="briefcase-variant"
+                    size={18}
+                    color={theme.theme.colors.black}
+                  />
+                }
+                title="Profesión"
+                content={data.profesion}
+              />
+            </View>
           </View>
           <StyledFooter>
             <Button title="Totono" />
@@ -110,6 +153,9 @@ const StyledHeaderShape = styled.View<TypeTheme>`
 
 const StyledContent = styled.View<TypeTheme>`
   margin-top: -${props => props.theme.dimensions.vh(8)};
+  padding-bottom: ${props => props.theme.dimensions.vh(10)};
+  border-bottom-width: 0.8px;
+  border-color: ${props => props.theme.colors.gray};
 `;
 
 const StyledHeader = styled.View<TypeTheme>`
