@@ -10,8 +10,6 @@ const fetchUsers = async () => {
   try {
     const response = await fetch(`${API_URL}${USERS_ENDPOINT}`);
 
-    // console.log(response, 'response');
-
     if (!response.ok) {
       throw new Error('Failed to fetch users');
     }
@@ -19,15 +17,43 @@ const fetchUsers = async () => {
     const jsonData: FetchUserType = await response.json();
     return jsonData;
   } catch (error) {
-    // console.log(error, 'error');
     throw error;
   }
 };
 
-export const useUsers = () =>
-  useQuery({
+const fetchUserById = async (id: number) => {
+  try {
+    const response = await fetch(`${API_URL}${USERS_ENDPOINT}`);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
+    }
+
+    const jsonData: FetchUserType = await response.json();
+    const users = (await jsonData).users;
+
+    return users.find((user: User) => user.contactId === id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const useUsers = () => {
+  return useQuery({
     queryKey: ['users'],
     queryFn: fetchUsers,
     retry: 1,
-    refetchOnWindowFocus: true,
   });
+};
+
+export const useUser = (id: number) => {
+  return useQuery(
+    ['user', id],
+    () => {
+      return fetchUserById(id);
+    },
+    {
+      retry: 1,
+    },
+  );
+};

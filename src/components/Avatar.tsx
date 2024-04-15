@@ -47,7 +47,6 @@ type StylingProps = TypeTheme & {
 };
 
 function contextSizeStyles(context: keyof typeof contexts) {
-  console.log(context);
   if (context === contexts.default) {
     return css<TypeTheme>`
       width: ${props => props.theme.dimensions.vw(15)};

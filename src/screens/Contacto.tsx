@@ -1,29 +1,55 @@
 import React from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, ActivityIndicator} from 'react-native';
 import {styled} from 'styled-components/native';
-import {TypeTheme} from '../types';
-import {Avatar} from '../components';
+import {TypeTheme, StackScreens} from '../types';
+import {Avatar, BasicError} from '../components';
+import {useUser} from '../api';
+import {theme} from '../lib/theme';
+import {useRoute} from '@react-navigation/native';
+import type {RouteProp} from '@react-navigation/native';
+
+type ContactScreenProps = RouteProp<StackScreens, 'Contacto'>;
 
 export function Contacto() {
+  const route = useRoute<ContactScreenProps>();
+  const {data, isLoading} = useUser(route.params.contactId);
+
+  if (isLoading) {
+    return (
+      <StyledContainer>
+        <ActivityIndicator size="large" color={theme.theme.colors.primary} />
+      </StyledContainer>
+    );
+  }
+
   return (
     <StyledWrapper>
-      <View>
-        <StyledHeaderShape />
-        <StyledContent>
-          <StyledHeader>
-            <Avatar
-              context="contact"
-              imageUri="https://www.clarin.com/img/2022/05/02/es-de-las-pocas-divas___jaXKnyR7D_340x340__1.jpg"
-            />
-          </StyledHeader>
-        </StyledContent>
-      </View>
-      <StyledFooter>
-        <Button title="Totono" />
-      </StyledFooter>
+      {data ? (
+        <>
+          <View>
+            <StyledHeaderShape />
+            <StyledContent>
+              <StyledHeader>
+                <Avatar context="contact" imageUri={data?.photo} />
+              </StyledHeader>
+            </StyledContent>
+          </View>
+          <StyledFooter>
+            <Button title="Totono" />
+          </StyledFooter>
+        </>
+      ) : (
+        <BasicError />
+      )}
     </StyledWrapper>
   );
 }
+
+const StyledContainer = styled.View<TypeTheme>`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
 const StyledWrapper = styled.View<TypeTheme>`
   flex: 1;
