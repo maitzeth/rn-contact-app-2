@@ -47,5 +47,4 @@ const StyledTitle = styled.Text<TypeTheme>`
 const StyledContentText = styled.Text<TypeTheme>`
   color: ${props => props.theme.colors.gray};
   font-size: ${props => props.theme.units.rem(0.75)};
-  text-transform: uppercase;
 `;

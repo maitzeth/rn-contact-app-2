@@ -5,3 +5,8 @@ export const tabHeaderTitles = {
   Muestras: 'Tus muestras',
   Vademecum: 'Informacion de Salud',
 } as const;
+
+export const GenderTranslationMap = {
+  MALE: 'Masculino',
+  FEMALE: 'Femenino',
+} as const;

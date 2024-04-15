@@ -18,6 +18,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicos from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {formatDefaultReadableDate} from '../lib/dates';
+import {GenderTranslationMap} from '../lib/constants';
 
 type ContactScreenProps = RouteProp<StackScreens, 'Contacto'>;
 
@@ -102,7 +103,11 @@ export function Contacto() {
                   />
                 }
                 title="Género"
-                content={data.gender}
+                content={
+                  GenderTranslationMap[
+                    data.gender as keyof typeof GenderTranslationMap
+                  ]
+                }
               />
               <TwoSidedInfoDisplayer
                 icon={
