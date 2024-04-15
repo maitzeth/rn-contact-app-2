@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, ActivityIndicator, Linking} from 'react-native';
+import {View, ActivityIndicator, Linking} from 'react-native';
 import {styled} from 'styled-components/native';
 import {TypeTheme, StackScreens} from '../types';
 import {
@@ -7,6 +7,7 @@ import {
   BasicError,
   IconButton,
   TwoSidedInfoDisplayer,
+  Button,
 } from '../components';
 import {useUser} from '../api';
 import {theme} from '../lib/theme';
@@ -117,7 +118,7 @@ export function Contacto() {
             </View>
           </View>
           <StyledFooter>
-            <Button title="Totono" />
+            <Button text="Eliminar de mi lista" />
           </StyledFooter>
         </>
       ) : (
