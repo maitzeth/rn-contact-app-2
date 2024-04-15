@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const screenOptions = (route: string, color: string) => {
-  let iconName;
+  let iconName: string = 'circle';
 
   switch (route) {
     case 'Home': {
