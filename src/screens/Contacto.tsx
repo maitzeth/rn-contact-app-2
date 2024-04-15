@@ -1,14 +1,22 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Button} from 'react-native';
 import {styled} from 'styled-components/native';
 import {TypeTheme} from '../types';
+import {Avatar} from '../components';
 
 export function Contacto() {
   return (
     <StyledWrapper>
       <View>
         <StyledHeaderShape />
-        <Text>Contacto</Text>
+        <StyledContent>
+          <StyledHeader>
+            <Avatar
+              context="contact"
+              imageUri="https://www.clarin.com/img/2022/05/02/es-de-las-pocas-divas___jaXKnyR7D_340x340__1.jpg"
+            />
+          </StyledHeader>
+        </StyledContent>
       </View>
       <StyledFooter>
         <Button title="Totono" />
@@ -30,7 +38,16 @@ const StyledFooter = styled.View<TypeTheme>`
 
 const StyledHeaderShape = styled.View<TypeTheme>`
   background-color: ${props => props.theme.colors.primary};
-  height: 100px;
-  border-bottom-left-radius: 60px;
-  border-bottom-right-radius: 60px;
+  height: ${props => props.theme.dimensions.vh(12)};
+  border-bottom-left-radius: ${props => props.theme.dimensions.vh(9)};
+  border-bottom-right-radius: ${props => props.theme.dimensions.vh(9)};
+`;
+
+const StyledContent = styled.View<TypeTheme>`
+  margin-top: -${props => props.theme.dimensions.vh(8)};
+`;
+
+const StyledHeader = styled.View<TypeTheme>`
+  align-items: center;
+  justify-content: center;
 `;
